@@ -1,0 +1,86 @@
+//package cn.hff.sort;
+//
+//import org.junit.Test;
+//
+///**
+// * 由于使用小顶堆，而且数组前面一部分可能已经是排好序的，已经不属于堆中的元素了，所以可以得到以下结论
+// * 结论1.数组前items.length-heapSize个元素已经不属于堆中元素了， 所以堆顶元素的索引是topIndex =
+// * items.length-heapSize
+// * 
+// * 结论2.索引为n的的元素，并且该元素已经确认是堆中的元素，则：
+// * 该元素的左子树索引为：items.length-heapSize+2*(n-(items.length-heapSize))+1 =
+// * 2*n+1-(items.length-heapSize);
+// * 该元素的右子树索引为：items.length-heapSize+2*(n-(items.length-heapSize))+2 =
+// * 2*n+2-(items.length-heapSize);
+// * 
+// * 结论3.大小为heapSize的小顶堆，有heapSize/2个非叶子结点，
+// * 最前端的(或者说最上端)非叶子结点索引值为：items.length-heapSize
+// * 最末端的(或者说最下端)非叶子结点索引值为：heapSize/2-1+items.length-heapSize;
+// */
+//public class LikeSmoothSort implements SortAlgorithm {
+//
+//	public <TYPE extends Comparable<? super TYPE>> void sort(TYPE[] items) {
+//		for (int i = 0; i < items.length; i++) {
+//			buildHeap(items, items.length - i);
+//		}
+//	}
+//
+//	private <TYPE extends Comparable<? super TYPE>> void buildHeap(TYPE[] items, int heapSize) {
+//		// 构造小顶堆
+//		int topIndex = items.length - heapSize;// 堆顶元素的索引
+//		int lastParentIndex = heapSize / 2 - 1 + topIndex;// 最后一个非叶子结点的索引值
+//		for (int i = lastParentIndex; i >= topIndex; i--) {
+//			adjust(items, i, heapSize);
+//		}
+//	}
+//
+//	private <TYPE extends Comparable<? super TYPE>> void adjust(TYPE[] items, int index, int heapSize) {
+//		int topIndex = items.length - heapSize;// 堆顶元素的索引
+//		int lastParentIndex = heapSize / 2 - 1 + topIndex;// 最后一个非叶子结点的索引值
+//		int leftChild = 2 * index + 1 - topIndex;
+//		int rightChild = 2 * index + 2 - topIndex;
+//
+//		// 在三个结点中选出最小的结点
+//		int indexOfMin = index;
+//
+//		if (leftChild < items.length) {// 左子树存在性检验
+//			if (items[leftChild].compareTo(items[indexOfMin]) < 0) {
+//				indexOfMin = leftChild;
+//			}
+//		}
+//		if (rightChild < items.length) {// 右子树存在性检验
+//			if (items[rightChild].compareTo(items[indexOfMin]) < 0) {
+//				indexOfMin = rightChild;
+//			}
+//		}
+//
+//		if (indexOfMin != index) {
+//			// 将较小值上移
+//			TYPE temp = items[index];
+//			items[index] = items[indexOfMin];
+//			items[indexOfMin] = temp;
+//
+//			if (indexOfMin <= lastParentIndex) {
+//				// 如果被调整后的结点也是非叶子结点
+//				// 需要对该子树进行调整
+//				adjust(items, indexOfMin, heapSize);
+//			}
+//		}
+//	}
+//
+//	private final Integer[] testItems = { 3, 6, 2, 5, 9, 0, 1, 7, 4, 8 };
+//
+//	@Test
+//	public void testSmoothSort() {
+//		System.out.print("排序前：");
+//		for (int i = 0; i < testItems.length; i++) {
+//			System.out.print(testItems[i] + " ");
+//		}
+//		sort(testItems);
+//
+//		System.out.print("\n排序后：");
+//		for (int i = 0; i < testItems.length; i++) {
+//			System.out.print(testItems[i] + " ");
+//		}
+//	}
+//}
